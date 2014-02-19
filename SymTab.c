@@ -105,10 +105,13 @@ void destroySymTab(struct SymTab *aTable){
 				entry = entry->next;
 				/* Free data in entry */
 				free(tempEntry->attributes);
+				tempEntry->attributes = NULL;
+				
 				free(tempEntry->name);
-				//tempEntry->attributes = NULL;
-				//tempEntry->name = NULL;
+				tempEntry->name = NULL;
+				
 				free(tempEntry);
+				tempEntry = NULL;
 			}
 		}
 	}
@@ -116,7 +119,9 @@ void destroySymTab(struct SymTab *aTable){
 	/* Free the actual symbol table as the last step */
 	aTable->size = 0;
 	aTable->contents = NULL;
+	
 	free(aTable);
+	aTable = NULL;
 }
 
 bool enterName(struct SymTab *aTable, const char *name, struct SymEntry **anEntry){
