@@ -54,6 +54,12 @@ int main(int argc, char * argv[]){
     printf("Name of entry: %s\n", getName(entry2));
     printf("Name of entry: %s\n", getName(entry3));
     printf("Name of entry: %s\n", getName(entry4));
+
+    struct SymEntry* entry = firstEntry(test);
+    while(entry != NULL){
+    	printf("Entry name = %s\n", entry->name);
+    	entry = nextEntry(test, entry);
+    }
     
     destroySymTab(test);
 }
@@ -235,5 +241,38 @@ struct SymEntry* firstEntry(struct SymTab *aTable){
 }
 
 struct SymEntry* nextEntry(struct SymTab *aTable, struct SymEntry *anEntry){
-	return anEntry->next;
+	int hashcode, next, i;
+	char* name;
+	int tableSize;
+	struct SymEntry** entries;
+
+	if(anEntry->next != NULL){
+		return anEntry->next;
+	}
+
+	name = anEntry->name;
+
+	/* Determine hashcode to allow us to know where to start searching 
+	   for the next entry in the symbol table */
+	tableSize = aTable->size;
+	entries = aTable->contents;
+	i = 0;
+	hashcode = 0;
+	next = name[0];
+	while(next != '\0'){
+		hashcode += next;
+		next = name[i];
+		i++;
+	}
+	hashcode = hashcode % aTable->size;
+	hashcode++;
+
+	for(i = hashcode; i < tableSize; i++){
+		/* Find first non-NULL entry if there is one*/
+		if(entries[i] != NULL){
+			return entries[i];
+		}
+	}
+
+	return NULL;
 }
