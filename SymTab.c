@@ -109,11 +109,14 @@ void destroySymTab(struct SymTab *aTable){
 			while(entry != NULL){
 				tempEntry = entry;
 				entry = entry->next;
-				/* Free data in entry */
+
 				tempEntry->attributes = NULL;
+				tempEntry->next = NULL;
 				
-				free(tempEntry->name);
-				tempEntry->name = NULL;
+				if(tempEntry->name != NULL){
+					free(tempEntry->name);
+					tempEntry->name = NULL;
+				}
 				
 				free(tempEntry);
 				tempEntry = NULL;
