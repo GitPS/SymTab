@@ -265,6 +265,7 @@ struct SymEntry* nextEntry(struct SymTab *aTable, struct SymEntry *anEntry){
 		i++;
 	}
 	hashcode = hashcode % aTable->size;
+	/* Increment hashcode in order to skip the current section we already searched */
 	hashcode++;
 
 	for(i = hashcode; i < tableSize; i++){

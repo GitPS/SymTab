@@ -16,7 +16,6 @@
  * Structure:
  *   Symbol table structure.
  */
-
 struct SymTab {
     int size;
     struct SymEntry **contents;
