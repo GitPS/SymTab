@@ -110,7 +110,6 @@ void destroySymTab(struct SymTab *aTable){
 				tempEntry = entry;
 				entry = entry->next;
 				/* Free data in entry */
-				free(tempEntry->attributes);
 				tempEntry->attributes = NULL;
 				
 				free(tempEntry->name);
@@ -253,7 +252,8 @@ struct SymEntry* nextEntry(struct SymTab *aTable, struct SymEntry *anEntry){
 	name = anEntry->name;
 
 	/* Determine hashcode to allow us to know where to start searching 
-	   for the next entry in the symbol table */
+	 * for the next entry in the symbol table 
+	 */
 	tableSize = aTable->size;
 	entries = aTable->contents;
 	i = 0;
